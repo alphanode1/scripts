@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+DIR=$HOME/pixx/ss
+DATE=$(date +%d_%b_%a-%H.%M.%S | awk '{print tolower($0)}')
+ICON=~/.config/dunst/icons
+
+if [[ ! -d $DIR ]]; then
+        mkdir $DIR -p
+fi
+
+
+function checkFile() {
+   if [ ! -s ${DIR}/${DATE}.png ]; then
+	  rm ${DIR}/${DATE}.png -f
+   else
+	  dunstify -u normal -t 3000 -r "9993" -i ${ICON}/screenshot3.png "Screenshot Saved " "${DATE}.png "
+   fi
+}
+
+
+case "$1" in
+   capture)	maim | tee ${DIR}/${DATE}.png ; checkFile ;;
+   window) maim -u -i $(xdotool getactivewindow) | tee ${DIR}/${DATE}.png ; checkFile ;;
+   crop) maim -u --select | tee ${DIR}/${DATE}.png ; checkFile ;;
+   *) echo "INVALID OPTION"
+esac
