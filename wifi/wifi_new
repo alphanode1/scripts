@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+ICON_PATH=~/.config/dunst/icons
+
+BSSID=$(nmcli -f bssid,ssid,rate,signal,security,in-use device wifi list | tail -n +2 | dmenu -c -l 5)
+SELECTION=$(echo $BSSID | awk '{print $1}')
+
+if [[ $SELECTION = "" ]]; then
+   exit -1
+else
+   PASSWD=$(printf '%s' "$*" | dmenu -c -l 0 -p "Enter Password")
+   if [[ $PASSWD = "" ]]; then
+	  MSG=$(nmcli device wifi connect $SELECTION)
+   else
+	  MSG=$(nmcli device wifi connect $SELECTION password "$PASSWD")
+   fi
+   MSG=$(echo ${MSG} | sed 's/\\[2K//g' )
+   dunstify -u normal -i ${ICON_PATH}/wifi.png "$MSG"
+fi
