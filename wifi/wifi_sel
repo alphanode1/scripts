@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+ICON_PATH=~/.config/dunst/icons
+
+LIST=$(nmcli -f uuid,name connection show | tail -n +2 | dmenu -c -i -l 5)
+SELECTION=$(echo $LIST | awk '{print $1}')
+
+if [[ -n $SELECTION ]]; then
+   MSG=$(nmcli connection up $SELECTION)
+   if [[ -n $MSG ]]; then
+	  MSG=$(echo $MSG | grep -Eo 'Con.*.activated')
+   else
+	  MSG="Connection Not Available"
+   fi
+   dunstify -u normal -i ${ICON_PATH}/wifi.png "Wi-Fi" "$MSG"
+fi
