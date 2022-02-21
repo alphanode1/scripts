@@ -4,7 +4,7 @@ ICON=~/.config/dunst/icons
 VOLUME=$(pulsemixer --get-volume | cut -d' ' -f1)
 
 function send_notification() {
-		dunstify -a "changevolume" -u normal -i ${ICON}/volume.png -h int:value:"$VOLUME" -r "9993" "${VOLUME} %" -t 2000
+		dunstify -a "changevolume" -u normal -i ${ICON}/volume.png -r "9993" "${VOLUME} %" -t 2000
 }
 
 case $1 in
