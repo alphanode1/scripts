@@ -1,0 +1,29 @@
+#!/bin/sh
+
+##### URL ##############
+URL="https://vid.puffyan.us"
+
+
+##### QUALITY ##########
+## Video =>  worst/17 ~ 114p | 18 ~ 360p | 22 ~ 720p | best
+## Audio => 251
+## Commnet "QUALITY" for super best quality
+
+#QUALITY="--ytdl-format=22"
+
+########################
+
+
+##### QUERY ############
+QUERY=$(printf '%s' "$*" | dmenu -c -p "search video")
+QUERY=$(printf "$QUERY" | tr ' ' '+')
+
+
+##### PLAY #############
+if [[ -n $QUERY ]]; then
+   VIDEO=$(echo https://youtube.com/$(curl -s "${URL}/search?q=${QUERY}" | grep -Eo "watch\?v=.{11}" | head -n 1))
+   dunstify -u normal -t 3000 "PLAYING "
+   mpv --cache-secs=300 $QUALITY --no-resume-playback $VIDEO
+else
+   exit -1
+fi
