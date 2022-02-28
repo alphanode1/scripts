@@ -1,0 +1,24 @@
+#!/bin/sh
+
+icon_path=~/.config/dunst/icons
+
+function send_notification() {
+		bright=$(xbacklight -get)
+		dunstify -a "changebright" -u normal -t 1000 -r "9993" -i ${icon_path}/brightness.png "${bright}% " -t 1000
+}
+
+case $1 in
+		up)
+				xbacklight -inc 1
+				send_notification $1 ;;
+		down)
+				xbacklight -dec 1
+				send_notification $1 ;;
+
+		s_up)
+				xbacklight -inc 5
+				send_notification $1 ;;
+		s_down)
+				xbacklight -dec 5
+				send_notification $1 ;;
+esac
