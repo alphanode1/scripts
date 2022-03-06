@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+mkdir $1
+mkdir $1/{bin,src/main} -p
+touch $1/README.md
+
+cat > $1/src/main/App.java << EOF
+package main;
+
+class App {
+   public static void main(String[] args) {
+   }
+}
+EOF
+
+echo -e "\nProject '$1' created with main method.\n"
