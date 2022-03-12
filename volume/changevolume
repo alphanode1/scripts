@@ -1,34 +1,47 @@
 #!/usr/bin/env bash
 
 ICON=~/.config/dunst/icons
-VOLUME=$(pulsemixer --get-volume | cut -d' ' -f1)
+NOTIFY="dunstify -a "changevolume" -t 2000 -r 9993 -u normal"
+
+function getVolume(){
+	VOLUME=$(pulsemixer --get-volume | cut -d' ' -f1)
+	$NOTIFY -i ${ICON}/volume.png "${VOLUME} %"
+}
+
+function getMute(){
+	MUTE=$(pulsemixer --get-mute)
+	if [[ $MUTE == "1" ]]; then
+		$NOTIFY -i ${ICON}/volume_mute.png "0 %"
+	else
+		getVolume
+	fi
+}
+
+function getMic(){
+	MIC=$(pulsemixer --id source-1 --get-mute)
+	if [[ $MIC == "1" ]]; then
+		$NOTIFY -i ${ICON}/mic_off.png "OFF "
+	else
+		$NOTIFY -i ${ICON}/mic_on.png "ON "
+	fi
+}
 
 case $1 in
    up)
 	  pulsemixer --change-volume +2
-	  dunstify -u normal -i ${ICON}/volume.png -r "9993" "${VOLUME} %" -t 2000
+	  getVolume
 	  ;;
    down)
 	  pulsemixer --change-volume -2
-	  dunstify -u normal -i ${ICON}/volume.png -r "9993" "${VOLUME} %" -t 2000
+	  getVolume
 	  ;;
    mute)
 	  pulsemixer --toggle-mute
-	  MUTE=$(pulsemixer --get-mute)
-	  if [[ $MUTE == "1" ]]; then
-		 dunstify -a "changevolume" -t 2000 -r 9993 -u normal -i ${ICON}/volume_mute.png "0 %"
-	  else
-		 dunstify -a "changevolume" -t 2000 -r 9993 -u normal -i ${ICON}/volume.png "${VOLUME} %"
-	  fi
+	  getMute
 	  ;;
    mic)
 	  pulsemixer --id source-1 --toggle-mute
-	  MIC=$(pulsemixer --id source-1 --get-mute)
-	  if [[ $MIC == "1" ]]; then
-		 dunstify -a "changevolume" -t 2000 -r 9993 -u normal -i ${ICON}/mic_off.png "OFF "
-	  else
-		 dunstify -a "changevolume" -t 2000 -r 9993 -u normal -i ${ICON}/mic_on.png "ON "
-	  fi
+	  getMic
 	  ;;
    *) echo "Invalid Option"
 esac
