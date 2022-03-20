@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 DIR=$HOME/pixx/ss
-DATE=$(date +%d_%b_%a-%H.%M.%S | awk '{print tolower($0)}')
+DATE=$(date +%m_%d_%H.%M.%S_%a | awk '{print tolower($0)}')
 ICON=~/.config/dunst/icons
 
 if [[ ! -d $DIR ]]; then
