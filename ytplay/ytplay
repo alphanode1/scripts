@@ -15,7 +15,7 @@ URL="https://vid.puffyan.us"
 
 
 ##### QUERY ############
-QUERY=$(printf '%s' "$*" | dmenu -c -p "search video")
+QUERY=$(printf '%s' "$*" | dmenu -c -p "search video :")
 QUERY=$(printf "$QUERY" | tr ' ' '+')
 
 

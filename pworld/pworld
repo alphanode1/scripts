@@ -3,7 +3,7 @@
 BASE_URL=https://www.pagalworld.pw
 ICON=~/.config/dunst/icons
 
-query=$(printf '%s' "$*" | dmenu -c -p "Search Song")
+query=$(printf '%s' "$*" | dmenu -c -p "search song :")
 if [[ -n $query ]]; then
 	song_selection=$(curl -s ${BASE_URL}/search?\cats=\5570\&\q=${query} | grep "download.html" | cut -d'"' -f2 | dmenu -l 10 -c)
 else

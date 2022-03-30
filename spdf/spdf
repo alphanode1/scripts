@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PDF="$(find $HOME -type f \( -iname '*.pdf' -o -iname "*.epub" \) | dmenu -i -c -l 10 -p "SEARCH PDF")"
+PDF="$(find $HOME -type f \( -iname '*.pdf' -o -iname "*.epub" \) | dmenu -i -c -l 10 -p "search pdf :")"
 
 if [[ ! -z $PDF ]]; then
    zathura "${PDF}"
